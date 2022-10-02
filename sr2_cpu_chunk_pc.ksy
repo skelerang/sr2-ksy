@@ -19,7 +19,7 @@ seq:
     size: 128
   - id: cityobject_count
     type: u4
-  - id: header_0x98
+  - id: unknown23_count
     type: u4
   - id: header_0x9c
     type: u4
@@ -257,7 +257,145 @@ seq:
     type: strz
     repeat: expr
     repeat-expr: cityobject_count
+    
+  - id: align13
+    size: (16 - _io.pos) % 16
+  
+    # are these names of destroyable objects?
+  - id: unknown_names_len
+    type: u4
+  - id: unknown_names
+    size: unknown_names_len
+    
+  - id: align14
+    size: (16 - _io.pos) % 16
+    
+  - id: unknown13_count
+    type: u4
+  - id: unknown13
+    type: u4
+    repeat: expr
+    repeat-expr: unknown13_count
+  - id: align15
+    size: (16 - _io.pos) % 16
+  
+  - id: unknown17_size
+    type: u4
+  - id: unknown17
+    size: unknown17_size
+  - id: align17
+    size: (16 - _io.pos) % 16
+    
+    
+    # TODO: find a chunk that uses this one and get it's length right
+  - id: unknown18_size
+    type: u4
+  - id: unknown18
+    type: u4
+    repeat: expr
+    repeat-expr: unknown18_size
+  - id: align18
+    size: (16 - _io.pos) % 16
 
+
+  - id: unknown19_count
+    type: u4
+  - id: pad19
+    size: unknown19_count * 28
+  - id: unknown19
+    type: f4
+    repeat: expr
+    repeat-expr: unknown19_count * 7
+  
+  - id: unknown20_count
+    type: u4
+  - id: pad20
+    size: unknown20_count * 12
+  - id: unknown20
+    size: 12
+    repeat: expr
+    repeat-expr: unknown20_count
+  - id: align20
+    size: (16 - _io.pos) % 16
+    
+    # TODO: find a chunk that uses this one and get it's length right
+  - id: unknown21_count
+    type: u4
+  - id: unknown21
+    type: u4
+    repeat: expr
+    repeat-expr: unknown21_count
+  - id: align21
+    size: (16 - _io.pos) % 16
+    
+  - id: unknown22_count
+    type: u4
+  - id: unknown22
+    type: u4
+    repeat: expr
+    repeat-expr: unknown22_count
+  - id: align22
+    size: (16 - _io.pos) % 16
+    
+  # floats, some world coord
+  - id: unknown23
+    type: f4
+    repeat: expr
+    repeat-expr: unknown23_count * 12
+  
+  - id: unknown24_count
+    type: u4
+  - id: pad24
+    contents: [0, 0, 0, 0]
+  - id: unknown25_count
+    type: u4
+  - id: pad25
+    contents: [0, 0, 0, 0]
+  
+  - id: unknown24
+    size: 48
+    repeat: expr
+    repeat-expr: unknown24_count
+    
+  - id: unknown25
+    size: 2
+    repeat: expr
+    repeat-expr: unknown25_count
+  - id: align25
+    size: (16 - _io.pos) % 16
+    
+  - id: mckh
+    size: 4 # MCKH ?? 
+  
+  - id: unk26
+    size: 28
+    repeat: expr
+    repeat-expr: header_0xb8
+    
+doc: |
+  - id: light_count
+    type: u4
+  - id: unknown26b
+    type: u4
+  - id: lights
+    size: 148
+    repeat: expr
+    repeat-expr: light_count
+  - id: light_names
+    type: strz
+    repeat: expr
+    repeat-expr: light_count
+  - id: align_light
+    size: (16 - _io.pos) % 16
+  - id: light_unk2
+    type: f4
+    repeat: expr
+    repeat-expr: light_count 
+  - id: align_light2
+    size: (16 - _io.pos) % 16
+    
+  - id: temp
+    type: u4
 types:
   vec3:
     seq:
@@ -271,11 +409,15 @@ types:
     seq:
       - id: unk0
         type: u4
-      - id: padding
-        size: 12
-      - id: unk1
+      - id: unk1  # flag?
         type: u4
-      - id: unk2
+      - id: unk2  # flag? 
+        type: u4
+      - id: unk3  # flag? 
+        type: u4
+      - id: unk4
+        type: u4
+      - id: unk5
         type: u4
   cityobject_part:
     seq:
