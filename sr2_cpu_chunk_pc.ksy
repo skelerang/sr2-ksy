@@ -19,7 +19,7 @@ seq:
     size: 128
   - id: cityobject_count
     type: u4
-  - id: header_0x98
+  - id: unknown23_count
     type: u4
   - id: header_0x9c
     type: u4
@@ -27,17 +27,17 @@ seq:
     type: u4
   - id: header_0xa4
     size: 16
-  - id: header_0xb4
+  - id: mesh_mover_count
     type: u4
-  - id: header_0xb8
+  - id: unknown27_count
     type: u4
-  - id: header_0xbc
+  - id: unknown28_count
     type: u4
-  - id: header_0xc0
+  - id: unknown29_count
     type: u4
-  - id: header_0xc4
+  - id: unknown30_count
     type: u4
-  - id: header_0xc8
+  - id: unknown31_count
     type: u4
   - id: header_0xcc
     type: u4
@@ -257,6 +257,211 @@ seq:
     type: strz
     repeat: expr
     repeat-expr: cityobject_count
+    
+  - id: align13
+    size: (16 - _io.pos) % 16
+
+  # are these names of destroyable objects?
+  - id: unknown_names_len
+    type: u4
+  - id: unknown_names
+    size: unknown_names_len
+    
+  - id: align14
+    size: (16 - _io.pos) % 16
+
+  - id: unknown13_count
+    type: u4
+  - id: unknown13
+    type: u4
+    repeat: expr
+    repeat-expr: unknown13_count
+  - id: align15
+    size: (16 - _io.pos) % 16
+  
+  - id: cd_pad17_size
+    type: u4
+  - id: cd_pad_17
+    size: cd_pad17_size
+  - id: align17
+    size: (16 - _io.pos) % 16
+    
+
+  # These only appear in a couple chunkfiles around Saints HQ
+  # See chunks numbered 93 and 106.
+  - id: unknown18_count
+    type: u4
+
+  - id: unknown18s
+    type: unknown18
+    repeat: expr
+    repeat-expr: unknown18_count
+
+  - id: align18
+    size: (16 - _io.pos) % 16
+
+  - id: unknown19_count
+    type: u4
+  - id: pad19
+    size: unknown19_count * 28
+  - id: unknown19
+    type: f4
+    repeat: expr
+    repeat-expr: unknown19_count * 7
+
+  - id: unknown20_count
+    type: u4
+  - id: pad20
+    size: unknown20_count * 12
+  - id: unknown20
+    size: 12
+    repeat: expr
+    repeat-expr: unknown20_count
+  - id: align20
+    size: (16 - _io.pos) % 16
+      
+
+  # TODO: find a chunk that uses this one and get it's length right
+  - id: unknown21_count
+    type: u4
+  - id: unknown21_pad
+    size: unknown21_count * 8
+  - id: unknown21
+    type: u4
+    repeat: expr
+    repeat-expr: unknown21_count * 2
+  - id: align21
+    size: (16 - _io.pos) % 16
+
+  - id: unknown22_count
+    type: u4
+  - id: unknown22
+    type: u4
+    repeat: expr
+    repeat-expr: unknown22_count
+  - id: align22
+    size: (16 - _io.pos) % 16
+
+  # floats, some world coord
+  - id: unknown23
+    type: f4
+    repeat: expr
+    repeat-expr: unknown23_count * 12
+
+  - id: unknown24_count
+    type: u4
+  - id: pad24
+    contents: [0, 0, 0, 0]
+  - id: unknown25_count
+    type: u4
+  - id: pad25
+    contents: [0, 0, 0, 0]
+
+  - id: unknown24
+    size: 48
+    repeat: expr
+    repeat-expr: unknown24_count
+
+  - id: unknown25
+    size: 2
+    repeat: expr
+    repeat-expr: unknown25_count
+  - id: align25
+    size: (16 - _io.pos) % 16
+
+  - id: mesh_movers
+    type: mesh_mover
+    repeat: expr
+    repeat-expr: mesh_mover_count
+    
+  - id: unknown27
+    size: 24
+    repeat: expr
+    repeat-expr: unknown27_count
+    
+  - id: unknown28
+    size: 36
+    repeat: expr
+    repeat-expr: unknown28_count
+    
+  - id: unknown29
+    size: 4
+    repeat: expr
+    repeat-expr: unknown29_count
+    
+  - id: unknown30
+    size: 12
+    repeat: expr
+    repeat-expr: unknown30_count
+    
+  - id: unknown31
+    size: 8
+    repeat: expr
+    repeat-expr: unknown31_count
+    
+  # Floats: 0's and 1's
+  - id: unknown32
+    size: 8
+    repeat: expr
+    repeat-expr: header_0xf0
+  
+  - id: mesh_mover_names
+    type: mesh_mover_name(
+      mesh_movers[_index].start_count
+      )
+    repeat: expr
+    repeat-expr: mesh_mover_count
+  - id: align32
+    size: (16 - _io.pos) % 16
+  
+  
+  - id: light_count
+    type: u4
+  - id: unknown26b
+    type: u4
+  - id: lights
+    type: light
+    repeat: expr
+    repeat-expr: light_count
+  - id: light_names
+    type: strz
+    repeat: expr
+    repeat-expr: light_count
+  - id: align_light
+    size: (16 - _io.pos) % 16
+
+  - id: light_unk2
+    size: lights[_index].unk8 * 4
+    repeat: expr
+    repeat-expr: light_count 
+  - id: align_light2
+    size: (16 - _io.pos) % 16
+    
+doc: |
+  - id: unknown33_count
+    type: u4
+
+  - id: pad33
+    size: 4 #contents: [0,0,0,0]
+  - id: unknown33b_count
+    type: u4
+  - id: pad33b
+    size: 4 #contents: [0,0,0,0]
+doc: |
+  - id: unknown33
+    size: 48
+    repeat: expr
+    repeat-expr: unknown33_count
+  - id: unknown33b
+    type: u2
+    repeat: expr
+    repeat-expr: unknown33b_count
+  
+doc: |
+  # Okay there may be stuff between unknown25 an mckh
+  - id: mckh
+    type: str
+    size: 4 # MCKH ?? 
 
 types:
   vec3:
@@ -271,11 +476,15 @@ types:
     seq:
       - id: unk0
         type: u4
-      - id: padding
-        size: 12
-      - id: unk1
+      - id: unk1  # flag?
         type: u4
-      - id: unk2
+      - id: unk2  # flag? 
+        type: u4
+      - id: unk3  # flag? 
+        type: u4
+      - id: unk4
+        type: u4
+      - id: unk5
         type: u4
   cityobject_part:
     seq:
@@ -550,8 +759,8 @@ types:
       - id: submesh_count
         type: u2
         if: check_submeshes != 0
-      - id: submesh_pad0
-        contents: [255, 255, 255, 255]
+      - id: submesh_unkflag
+        size: 4
         if: check_submeshes != 0
       - id: submesh_unk2
         type: u4
@@ -566,8 +775,8 @@ types:
       - id: submesh2_count
         type: u2
         if: check_submesh2 != 0
-      - id: submesh2_pad0
-        contents: [255, 255, 255, 255]
+      - id: submesh2_unkflag
+        size: 4
         if: check_submesh2 != 0
       - id: submesh2_unk2
         type: u4
@@ -601,7 +810,11 @@ types:
       submesh2:
         seq:
           - id: unused
-            contents: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            contents: [0, 0, 0, 0]
+          - id: unknown
+            size: 4
+          - id: unused2
+            contents: [0, 0, 0, 0]
           - id: index_count # is it index count?
             type: u2
           - id: material_id
@@ -646,3 +859,124 @@ types:
         size: 4
       - id: unk7
         size: 4
+  unknown18:
+    seq:
+      - id: unk0
+        type: u4
+      - id: count0
+        type: u4
+      - id: pad0
+        size: count0 * 12
+      - id: data0
+        type: u4
+        repeat: expr
+        repeat-expr: count0
+        
+      - id: count1
+        type: u4
+      - id: pad1
+        size: count1 * 12
+      - id: data1
+        type: u4
+        repeat: expr
+        repeat-expr: count1
+        
+      - id: count2
+        type: u4
+      - id: pad2
+        size: count2 * 12
+      - id: data2
+        type: u4
+        repeat: expr
+        repeat-expr: count2
+  mesh_mover:
+    seq:
+      - id: unk0
+        size: 14
+      - id: start_count
+        type: u2
+      - id: unk1
+        size: 12
+  mesh_mover_name:
+    params:
+      - id: start_count
+        type: u2
+    seq:
+      - id: name
+        type: strz
+      - id: start_names
+        type: strz
+        repeat: expr
+        repeat-expr: start_count
+  light:
+    seq:
+      - id: unk0
+        type: u4
+      - id: unk1
+        type: u4
+      - id: unk2
+        type: u4
+      - id: unk3
+        type: u4
+      - id: unk4
+        type: u4
+      - id: unk5
+        type: u4
+      - id: unk6
+        type: u4
+      - id: unk7
+        type: u4
+      - id: unk8
+        type: u4
+      - id: unk9
+        type: u4
+      - id: unk10
+        type: u4
+      - id: unk11
+        type: u4
+      - id: unk12
+        type: u4
+      - id: unk13
+        type: f4
+      - id: unk14
+        type: u4
+      - id: pos
+        type: vec3
+      - id: unk18
+        type: f4
+      - id: unk19
+        type: f4
+      - id: unk20
+        type: u4
+      - id: unk21
+        type: u4
+      - id: unk22
+        type: f4
+      - id: unk23
+        type: u4
+      - id: unk24
+        type: u4
+      - id: unk25
+        type: u4
+      - id: unk26
+        type: u4
+      - id: unk27
+        type: u4
+      - id: unk28
+        type: u4
+      - id: unk29
+        type: u4
+      - id: unk30
+        type: u4
+      - id: unk31
+        type: u4
+      - id: unk32
+        type: u4
+      - id: unk33
+        type: u4
+      - id: unk34
+        type: u4
+      - id: unk35
+        type: u4
+      - id: unk36
+        type: u4
