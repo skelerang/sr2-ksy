@@ -414,29 +414,12 @@ seq:
   - id: align32
     size: (16 - _io.pos) % 16
   
-  
   - id: light_count
     type: u4
-  - id: unknown26b
-    type: u4
-  - id: lights
-    type: light
-    repeat: expr
-    repeat-expr: light_count
-  - id: light_names
-    type: strz
-    repeat: expr
-    repeat-expr: light_count
-  - id: align_light
-    size: (16 - _io.pos) % 16
-
-  - id: light_unk2
-    size: lights[_index].unk8 * 4
-    repeat: expr
-    repeat-expr: light_count 
-  - id: align_light2
-    size: (16 - _io.pos) % 16
-    
+  
+  - id: light_sections
+    type: light_section(light_count)
+    if: light_count != 1212891981 # MCHK
 doc: |
   - id: unknown33_count
     type: u4
@@ -447,7 +430,7 @@ doc: |
     type: u4
   - id: pad33b
     size: 4 #contents: [0,0,0,0]
-doc: |
+
   - id: unknown33
     size: 48
     repeat: expr
@@ -980,3 +963,31 @@ types:
         type: u4
       - id: unk36
         type: u4
+  light_section:
+    params:
+      - id: light_count
+        type: u4
+    seq:
+      - id: unknown26b
+        type: u4
+        
+      - id: lights
+        type: light
+        repeat: expr
+        repeat-expr: light_count
+    
+      - id: light_names
+        type: strz
+        repeat: expr
+        repeat-expr: light_count
+    
+      - id: align_light
+        size: (16 - _io.pos) % 16
+    
+      - id: light_unk2
+        size: lights[_index].unk8 * 4
+        repeat: expr
+        repeat-expr: light_count 
+    
+      - id: align_light2
+        size: (16 - _io.pos) % 16
