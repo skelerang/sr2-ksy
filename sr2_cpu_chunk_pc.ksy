@@ -99,7 +99,10 @@ seq:
 
   - id: align2
     size: (16 - _io.pos) % 16
-
+  
+  - id: cityobject_parts_offset
+    type: offset(_io.pos)
+    
   - id: cityobject_parts
     type: cityobject_part
     repeat: expr
@@ -416,7 +419,10 @@ seq:
   
   - id: light_count
     type: u4
-  
+    
+  - id: lights_offset
+    type: offset(_io.pos)
+    
   - id: light_sections
     type: light_section(light_count)
     if: light_count != 1212891981 # MCHK
@@ -455,6 +461,10 @@ types:
         type: f4
       - id: z
         type: f4
+  offset:
+    params:
+      - id: off
+        type: s8
   rendermodel_unk0:
     seq:
       - id: unk0
@@ -471,12 +481,8 @@ types:
         type: u4
   cityobject_part:
     seq:
-      - id: pos_x
-        type: f4
-      - id: pos_y
-        type: f4
-      - id: pos_z
-        type: f4
+      - id: pos
+        type: vec3
       - id: rest_of_the_transform
         size: 72
       - id: unk0
@@ -897,12 +903,12 @@ types:
         type: u4
       - id: unk1
         type: u4
-      - id: unk2
-        type: u4
-      - id: unk3
-        type: u4
-      - id: unk4
-        type: u4
+      - id: r
+        type: f4
+      - id: g
+        type: f4
+      - id: b
+        type: f4
       - id: unk5
         type: u4
       - id: unk6
@@ -936,21 +942,21 @@ types:
       - id: unk22
         type: f4
       - id: unk23
-        type: u4
+        type: f4
       - id: unk24
-        type: u4
+        type: f4
       - id: unk25
-        type: u4
+        type: f4
       - id: unk26
-        type: u4
+        type: f4
       - id: unk27
         type: u4
       - id: unk28
         type: u4
       - id: unk29
-        type: u4
+        type: f4
       - id: unk30
-        type: u4
+        type: f4
       - id: unk31
         type: u4
       - id: unk32
