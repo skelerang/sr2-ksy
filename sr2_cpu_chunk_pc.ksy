@@ -72,10 +72,7 @@ seq:
     repeat: expr
     repeat-expr: texture_count
 
-    # Byte alignment workaround.
-    # https://github.com/kaitai-io/kaitai_struct/issues/12
-  - id: align
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
     # Model info
   - id: rendermodel_count
@@ -89,16 +86,14 @@ seq:
   - id: unknown4_count
     type: u4
 
-  - id: align1
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: rendermodel_unk0s
     type: rendermodel_unk0
     repeat: expr
     repeat-expr: rendermodel_count
 
-  - id: align2
-    size: (16 - _io.pos) % 16
+  - type: align(16)
   
   - id: cityobject_parts_offset
     type: offset(_io.pos)
@@ -108,24 +103,21 @@ seq:
     repeat: expr
     repeat-expr: cityobject_part_count
 
-  - id: align3
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: unknown3s
     type: unknown3
     repeat: expr
     repeat-expr: unknown3_count
 
-  - id: align4
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: unknown4s
     type: unknown4
     repeat: expr
     repeat-expr: unknown4_count
 
-  - id: align5
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: unk_worldpos_count
     type: u4
@@ -154,25 +146,21 @@ seq:
     size: 12
     repeat: expr
     repeat-expr: unknown8_count
-  - id: align6
-    size: (16 - _io.pos) % 16
+  - type: align(16)
     # https://niftools.sourceforge.net/wiki/Nif_Format/Mopp
   - id: havok_mopp_size
     type: u4
-  - id: align7
-    size: (16 - _io.pos) % 16
+  - type: align(16)
   - id: havok_mopp
     size: havok_mopp_size
-  - id: align8
-    size: (4 - _io.pos) % 4
+  - type: align(4)
     # is this a bounding box?
   - id: unknown10min
     type: vec3
   - id: unknown10max
     type: vec3
 
-  - id: align9
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
     # Model header
   - id: model_headers
@@ -183,8 +171,7 @@ seq:
     type: vert_header_cont(model_headers[_index].vert_header_count)
     repeat: expr
     repeat-expr: model_count
-  - id: align10
-    size: (16 - _io.pos) % 16
+  - type: align(16)
   - id: phys_models
     type: phys_model_buffer(
       model_headers[_index].type == 7,
@@ -196,8 +183,7 @@ seq:
     # Materials
   - id: material_count
     type: u4
-  - id: align11
-    size: (16 - _io.pos) % 16
+  - type: align(16)
   - id: mat_shader_param_count
     type: u4
   - id: pad_mat
@@ -221,8 +207,7 @@ seq:
     size: 16
     repeat: expr
     repeat-expr: material_count
-  - id: align12
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
     # Mostly colors, sometimes affects scrolling textures.
   - id: mat_shader_params
@@ -261,8 +246,7 @@ seq:
     repeat: expr
     repeat-expr: cityobject_count
     
-  - id: align13
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   # are these names of destroyable objects?
   - id: unknown_names_len
@@ -270,8 +254,7 @@ seq:
   - id: unknown_names
     size: unknown_names_len
     
-  - id: align14
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: unknown13_count
     type: u4
@@ -279,15 +262,13 @@ seq:
     type: u4
     repeat: expr
     repeat-expr: unknown13_count
-  - id: align15
-    size: (16 - _io.pos) % 16
+  - type: align(16)
   
   - id: cd_pad17_size
     type: u4
   - id: cd_pad_17
     size: cd_pad17_size
-  - id: align17
-    size: (16 - _io.pos) % 16
+  - type: align(16)
     
 
   # These only appear in a couple chunkfiles around Saints HQ
@@ -300,8 +281,7 @@ seq:
     repeat: expr
     repeat-expr: unknown18_count
 
-  - id: align18
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: unknown19_count
     type: u4
@@ -320,8 +300,7 @@ seq:
     size: 12
     repeat: expr
     repeat-expr: unknown20_count
-  - id: align20
-    size: (16 - _io.pos) % 16
+  - type: align(16)
       
 
   # TODO: find a chunk that uses this one and get it's length right
@@ -333,8 +312,7 @@ seq:
     type: u4
     repeat: expr
     repeat-expr: unknown21_count * 2
-  - id: align21
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: unknown22_count
     type: u4
@@ -342,8 +320,7 @@ seq:
     type: u4
     repeat: expr
     repeat-expr: unknown22_count
-  - id: align22
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   # floats, some world coord
   - id: unknown23
@@ -369,8 +346,7 @@ seq:
     size: 2
     repeat: expr
     repeat-expr: unknown25_count
-  - id: align25
-    size: (16 - _io.pos) % 16
+  - type: align(16)
 
   - id: mesh_movers
     type: mesh_mover
@@ -414,8 +390,7 @@ seq:
       )
     repeat: expr
     repeat-expr: mesh_mover_count
-  - id: align32
-    size: (16 - _io.pos) % 16
+  - type: align(16)
   
   - id: light_count
     type: u4
@@ -426,33 +401,16 @@ seq:
   - id: light_sections
     type: light_section(light_count)
     if: light_count != 1212891981 # MCHK
-doc: |
-  - id: unknown33_count
-    type: u4
 
-  - id: pad33
-    size: 4 #contents: [0,0,0,0]
-  - id: unknown33b_count
-    type: u4
-  - id: pad33b
-    size: 4 #contents: [0,0,0,0]
-
-  - id: unknown33
-    size: 48
-    repeat: expr
-    repeat-expr: unknown33_count
-  - id: unknown33b
-    type: u2
-    repeat: expr
-    repeat-expr: unknown33b_count
-  
-doc: |
-  # Okay there may be stuff between unknown25 an mckh
-  - id: mckh
-    type: str
-    size: 4 # MCKH ?? 
 
 types:
+  align:
+    params:
+      - id: size
+        type: u4
+    seq:
+      - id: align
+        size: (size - _io.pos) % size
   vec3:
     seq:
       - id: x
@@ -659,15 +617,13 @@ types:
         repeat: expr
         repeat-expr: vert_count
         if: is_physmodel
-      - id: align
-        size: (16 - _io.pos) % 16
+      - type: align(16)
       - id: ibuf
         type: u2
         repeat: expr
         repeat-expr: index_count
         if: is_physmodel
-      - id: align1
-        size: (16 - _io.pos) % 16
+      - type: align(16)
 
   material:
     doc: |
@@ -692,8 +648,7 @@ types:
     seq:
       - id: data
         size: size * 6
-      - id: align
-        size: (4 - size * 6) % 4
+      - size: (4 - size * 6) % 4
   mat_tex_cont:
     seq:
       - id: tex_data
@@ -739,8 +694,7 @@ types:
         type: u4
       - id: check_submesh2
         type: u4
-      - id: align
-        size: (16 - _io.pos) % 16
+      - type: align(16)
 
       - id: submesh_unk0
         type: u2
@@ -899,8 +853,8 @@ types:
         repeat-expr: start_count
   light:
     seq:
-      - id: unk0
-        type: u4
+      - id: flags
+        type: bitflags
       - id: unk1
         type: u4
       - id: r
@@ -950,15 +904,15 @@ types:
       - id: unk26
         type: f4
       - id: unk27
-        type: u4
+        type: f4
       - id: unk28
-        type: u4
-      - id: unk29
         type: f4
-      - id: unk30
+      - id: radius_inner
         type: f4
-      - id: unk31
-        type: u4
+      - id: radius_outer
+        type: f4
+      - id: render_dist
+        type: f4
       - id: unk32
         type: u4
       - id: unk33
@@ -969,6 +923,73 @@ types:
         type: u4
       - id: unk36
         type: u4
+    types:
+      bitflags:
+        seq:
+          - id: bit_1f
+            type: b1
+          - id: bit_1e
+            type: b1
+          - id: bit_1d
+            type: b1
+          - id: bit_1c
+            type: b1
+          - id: bit_1b
+            type: b1
+          - id: bit_1a
+            type: b1
+          - id: bit_19
+            type: b1
+          - id: bit_18
+            type: b1
+          - id: bit_17
+            type: b1
+          - id: bit_16
+            type: b1
+          - id: bit_15
+            type: b1
+          - id: bit_14
+            type: b1
+          - id: cast_shadows_on_people
+            type: b1
+          - id: cast_shadows_on_world
+            type: b1
+          - id: bit_11
+            type: b1
+          - id: bit_10
+            type: b1
+          - id: bit_0f
+            type: b1
+          - id: bit_0e
+            type: b1
+          - id: bit_0d
+            type: b1
+          - id: bit_0c
+            type: b1
+          - id: bit_0b
+            type: b1
+          - id: bit_0a
+            type: b1
+          - id: bit_09
+            type: b1
+          - id: bit_08
+            type: b1
+          - id: bit_07
+            type: b1
+          - id: bit_06
+            type: b1
+          - id: bit_05
+            type: b1
+          - id: bit_04
+            type: b1
+          - id: bit_03
+            type: b1
+          - id: bit_02
+            type: b1
+          - id: bit_01
+            type: b1
+          - id: bit_00
+            type: b1
   light_section:
     params:
       - id: light_count
@@ -987,13 +1008,11 @@ types:
         repeat: expr
         repeat-expr: light_count
     
-      - id: align_light
-        size: (16 - _io.pos) % 16
+      - type: align(16)
     
       - id: light_unk2
         size: lights[_index].unk8 * 4
         repeat: expr
         repeat-expr: light_count 
     
-      - id: align_light2
-        size: (16 - _io.pos) % 16
+      - type: align(16)
