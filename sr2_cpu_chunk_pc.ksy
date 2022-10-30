@@ -11,8 +11,7 @@ seq:
     contents: [0x79, 0x0, 0x0, 0x0] # Version 121
   - id: header_0x8
     type: u4
-  - id: header_0xc
-    type: u4
+  - contents: [0,0,0,0]
   - id: header_0x10
     type: u4
   - id: header_0x14
@@ -65,8 +64,7 @@ seq:
     # Textures
   - id: texture_count
     type: u4
-  - id: texture_padding
-    size: texture_count * 4
+  - size: texture_count * 4
   - id: texture_names
     type: strz
     repeat: expr
@@ -197,7 +195,7 @@ seq:
     repeat: expr
     repeat-expr: material_count
 
-  - id: mat_bitflags
+  - id: mat_flags
     type: mat_bitflag(materials[_index].bitflag_count)
     repeat: expr
     repeat-expr: material_count
@@ -266,8 +264,7 @@ seq:
   
   - id: cd_pad17_size
     type: u4
-  - id: cd_pad_17
-    size: cd_pad17_size
+  - size: cd_pad17_size
   - type: align(16)
     
 
@@ -285,8 +282,7 @@ seq:
 
   - id: unknown19_count
     type: u4
-  - id: pad19
-    size: unknown19_count * 28
+  - size: unknown19_count * 28
   - id: unknown19
     type: f4
     repeat: expr
@@ -294,8 +290,7 @@ seq:
 
   - id: unknown20_count
     type: u4
-  - id: pad20
-    size: unknown20_count * 12
+  - size: unknown20_count * 12
   - id: unknown20
     size: 12
     repeat: expr
@@ -330,12 +325,10 @@ seq:
 
   - id: unknown24_count
     type: u4
-  - id: pad24
-    contents: [0, 0, 0, 0]
+  - contents: [0, 0, 0, 0]
   - id: unknown25_count
     type: u4
-  - id: pad25
-    contents: [0, 0, 0, 0]
+  - contents: [0, 0, 0, 0]
 
   - id: unknown24
     size: 48
@@ -441,8 +434,14 @@ types:
     seq:
       - id: pos
         type: vec3
+      - id: basis_x
+        type: vec3
+      - id: basis_y
+        type: vec3
+      - id: basis_z
+        type: vec3
       - id: rest_of_the_transform
-        size: 72
+        size: 36
       - id: unk0
         type: u4
       - id: rendermodel_id
@@ -557,8 +556,9 @@ types:
         type: u2
       - id: index_count
         type: u4
-      - id: unk
-        size: 12
+      - contents: [-1,-1,-1,-1]
+      - contents: [-1,-1,-1,-1]
+      - contents: [0,0,0,0]
   vert_header_cont:
     doc: |
       TODO: See todo in model_header.
@@ -600,8 +600,8 @@ types:
         type: u2
       - id: vert_count
         type: u4
-      - id: pad
-        contents: [255, 255, 255, 255, 0, 0, 0, 0]
+      - contents: [-1,-1,-1,-1]
+      - contents: [0,0,0,0]
 
   phys_model_buffer:
     params:
@@ -635,12 +635,11 @@ types:
         type: u2
       - id: tex_count
         type: u2
-      - id: pad1
-        size: 2
-      - id: unk2
+      - contents: [0,0]
+      - id: unk1
         type: u2
-      - id: pad3
-        size: 4
+      - id: unk2
+        type: s4
   mat_bitflag:
     params:
       - id: size
@@ -669,8 +668,7 @@ types:
         type: u2
       - id: unk3
         type: u2
-      - id: pad
-        contents: [255, 255, 255, 255]
+      - contents: [-1,-1,-1,-1]
 
   rendermodel:
     doc: |
@@ -769,47 +767,40 @@ types:
     seq:
       - id: bbox_min
         type: vec3
-      - id: pad
-        contents: [0, 0, 0, 0]
+      - contents: [0, 0, 0, 0]
       - id: bbox_max
         type: vec3
       - id: cull_distance
-
         type: f4
-      - id: pad1
-        contents: [0, 0, 0, 0]
+      - contents: [0, 0, 0, 0]
       - id: unk0
         size: 4
-      - id: pad2
-        contents: [0, 0, 0, 0]
+      - contents: [0, 0, 0, 0]
       - id: unk1
-        type: u2
-      - id: pad3
-        contents: [0, 0]
+        type: s2
+      - contents: [0, 0]
       - id: flags
         size: 4
       - id: unk3
         size: 4
-      - id: pad4
-        contents: [0, 0, 0, 0]
+      - contents: [0, 0, 0, 0]
       - id: unk4
-        size: 4
+        type: s4
       - id: cityobject_part_id
         type: u4
       - id: unk5
         type: u4
       - id: unk6
-        size: 4
+        type: s4
       - id: unk7
-        size: 4
+        type: s4
   unknown18:
     seq:
       - id: unk0
         type: u4
       - id: count0
         type: u4
-      - id: pad0
-        size: count0 * 12
+      - size: count0 * 12
       - id: data0
         type: u4
         repeat: expr
@@ -817,8 +808,7 @@ types:
         
       - id: count1
         type: u4
-      - id: pad1
-        size: count1 * 12
+      - size: count1 * 12
       - id: data1
         type: u4
         repeat: expr
@@ -826,8 +816,7 @@ types:
         
       - id: count2
         type: u4
-      - id: pad2
-        size: count2 * 12
+      - size: count2 * 12
       - id: data2
         type: u4
         repeat: expr
@@ -872,11 +861,11 @@ types:
       - id: unk8
         type: u4
       - id: unk9
-        type: u4
+        type: s4
       - id: unk10
         type: u4
       - id: unk11
-        type: u4
+        type: s4
       - id: unk12
         type: u4
       - id: unk13
@@ -914,9 +903,9 @@ types:
       - id: render_dist
         type: f4
       - id: unk32
-        type: u4
+        type: s4
       - id: unk33
-        type: u4
+        type: s4
       - id: unk34
         type: u4
       - id: unk35
@@ -950,9 +939,9 @@ types:
             type: b1
           - id: bit_14
             type: b1
-          - id: cast_shadows_on_people
+          - id: shadows_people
             type: b1
-          - id: cast_shadows_on_world
+          - id: shadows_world
             type: b1
           - id: bit_11
             type: b1
