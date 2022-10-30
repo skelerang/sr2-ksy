@@ -402,8 +402,7 @@ types:
       - id: size
         type: u4
     seq:
-      - id: align
-        size: (size - _io.pos) % size
+      - size: (size - _io.pos) % size
   vec3:
     seq:
       - id: x
